@@ -18,3 +18,7 @@ class Event(BaseModel):
     href: str
     date: datetime.date
     fights: list[Fight]
+
+
+class EventList(BaseModel):
+    events: list[Event]
