@@ -8,6 +8,8 @@ fastapi = "==0.87.0"
 pydantic = "==1.10.2"
 uvicorn = {extras = ["standard"], version = "*"}
 black = "==22.10.0"
+beautifulsoup4 = "==4.11.1"
+requests = "==2.28.1"
 
 [dev-packages]
 
