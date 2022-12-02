@@ -15,12 +15,14 @@ class LatestEventsScrapper(AbstractScrapper):
     @property
     def data(self) -> list[dict]:
         events_list = []
-        events = self.content.find(id="recent_tab").find_all('tr')[1:(self.limit+1)]
+        events = self.content.find(id="recent_tab").find_all("tr")[1 : (self.limit + 1)]
         for event in events:
-            tds = event.find_all('td')
-            events_list.append({
-                'date': tds[0].meta['content'],
-                'href': tds[1].a['href'],
-                'name': tds[1].span.text
-            })
+            tds = event.find_all("td")
+            events_list.append(
+                {
+                    "date": tds[0].meta["content"],
+                    "href": tds[1].a["href"],
+                    "name": tds[1].span.text,
+                }
+            )
         return events_list

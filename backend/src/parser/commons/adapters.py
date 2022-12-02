@@ -16,7 +16,7 @@ class ScrapperDataSetupMixin(DataSetupMixin):
 
 class SubAdapterDataSetupMixin(DataSetupMixin):
     def set_up_data(self, **kwargs):
-        return kwargs.get('data')
+        return kwargs.get("data")
 
 
 class AbstractAdapter(DataSetupMixin, ABC):

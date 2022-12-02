@@ -19,9 +19,9 @@ class EventAdapter(AbstractAdapter, SubAdapterDataSetupMixin):
 
     def to_dict(self):
         return {
-            'name': self.data["name"],
+            "name": self.data["name"],
             "href": SHERDOG_URL_PREFIX + self.data["href"],
-            "date": datetime.strptime(self.data["date"][:10], "%Y-%m-%d").date()
+            "date": datetime.strptime(self.data["date"][:10], "%Y-%m-%d").date(),
         }
 
 
@@ -30,9 +30,4 @@ class EventListAdapter(AbstractAdapter, ScrapperDataSetupMixin):
     model_class = EventList
 
     def to_dict(self):
-        return {
-            'events': [
-                EventAdapter(data=event).to_dict() for event in self.data
-            ]
-        }
-
+        return {"events": [EventAdapter(data=event).to_dict() for event in self.data]}
