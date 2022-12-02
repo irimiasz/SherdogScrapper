@@ -1,6 +1,10 @@
 from datetime import datetime
 
-from src.parser.commons.adapters import AbstractAdapter
+from src.parser.commons.adapters import (
+    AbstractAdapter,
+    ScrapperDataSetupMixin,
+    SubAdapterDataSetupMixin,
+)
 from src.parser.commons.constants import SHERDOG_URL_PREFIX
 
 from .models import (
@@ -10,7 +14,7 @@ from .models import (
 from .scrappers import LatestEventsScrapper
 
 
-class EventAdapter(AbstractAdapter):
+class EventAdapter(AbstractAdapter, SubAdapterDataSetupMixin):
     model_class = Event
 
     def to_dict(self):
@@ -21,7 +25,7 @@ class EventAdapter(AbstractAdapter):
         }
 
 
-class EventListAdapter(AbstractAdapter):
+class EventListAdapter(AbstractAdapter, ScrapperDataSetupMixin):
     scrapper_class = LatestEventsScrapper
     model_class = EventList
 
