@@ -30,4 +30,4 @@ class AbstractAdapter(DataSetupMixin, ABC):
         raise NotImplementedError()
 
     def to_model(self):
-        return self.model_class(self.to_dict())
+        return self.model_class(**self.to_dict())

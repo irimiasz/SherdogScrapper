@@ -1,23 +1,17 @@
-import requests
 from abc import (
     ABC,
     abstractmethod,
 )
 from bs4 import BeautifulSoup
 
-from .constants import MOCKED_HEADER
+from .helpers import get_site_content
 
 
 class AbstractScrapper(ABC):
     url: str = None
 
-    @property
-    def _html_content(self):
-        return requests.get(self.url, headers=MOCKED_HEADER).content
-
-    @property
-    def content(self) -> BeautifulSoup:
-        return BeautifulSoup(self._html_content, "html.parser")
+    def __init__(self):
+        self.content = BeautifulSoup(get_site_content(self.url), "html.parser")
 
     @property
     @abstractmethod
