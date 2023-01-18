@@ -15,7 +15,7 @@ def test_event_adapter():
     expected_data = {
         "name": "UFC on ESPN 42 - Thompson vs. Jan Pawel II",
         "date": date(year=2022, month=12, day=3),
-        "href": "https://www.sherdog.com/events/UFC-on-ESPN-42-Thompson-vs-Holland-94046",
+        "href": "UFC-on-ESPN-42-Thompson-vs-Holland-94046",
     }
     adapter = EventAdapter(data=input_data)
     assert adapter.to_dict() == expected_data
@@ -48,17 +48,17 @@ def test_event_list_adapter(mocker):
             {
                 "name": "UFC on ESPN 42 - Thompson vs. Jan Pawel II",
                 "date": date(year=2022, month=12, day=3),
-                "href": "https://www.sherdog.com/events/UFC-on-ESPN-42-Thompson-vs-Holland-94046",
+                "href": "UFC-on-ESPN-42-Thompson-vs-Holland-94046",
             },
             {
                 "name": "UFC Fight Night 215 - Nzechukwu vs. Cutelaba",
                 "date": date(year=2022, month=11, day=19),
-                "href": "https://www.sherdog.com/events/UFC-Fight-Night-215-Nzechukwu-vs-Cutelaba-94045",
+                "href": "UFC-Fight-Night-215-Nzechukwu-vs-Cutelaba-94045",
             },
             {
                 "name": "UFC 281 - Adesanya vs. Pereira",
                 "date": date(year=2022, month=11, day=12),
-                "href": "https://www.sherdog.com/events/UFC-281-Adesanya-vs-Pereira-94041",
+                "href": "UFC-281-Adesanya-vs-Pereira-94041",
             },
         ]
     }

@@ -1,3 +1,5 @@
+import re
+
 from datetime import datetime
 
 from src.parser.commons.adapters import (
@@ -5,13 +7,12 @@ from src.parser.commons.adapters import (
     ScrapperDataSetupMixin,
     SubAdapterDataSetupMixin,
 )
-from src.parser.commons.constants import SHERDOG_URL_PREFIX
 
-from .models import (
-    Event,
-    EventList,
+from .models import Event, EventList, Fight, Fighter, FightList
+from .scrappers import (
+    EventFightsScrapper,
+    LatestEventsScrapper,
 )
-from .scrappers import LatestEventsScrapper
 
 
 class EventAdapter(AbstractAdapter, SubAdapterDataSetupMixin):
@@ -20,7 +21,7 @@ class EventAdapter(AbstractAdapter, SubAdapterDataSetupMixin):
     def to_dict(self):
         return {
             "name": self.data["name"],
-            "href": SHERDOG_URL_PREFIX + self.data["href"],
+            "href": self.data["href"].split("/")[-1],
             "date": datetime.strptime(self.data["date"][:10], "%Y-%m-%d").date(),
         }
 
@@ -31,3 +32,35 @@ class EventListAdapter(AbstractAdapter, ScrapperDataSetupMixin):
 
     def to_dict(self):
         return {"events": [EventAdapter(data=event).to_dict() for event in self.data]}
+
+
+class FighterAdapter(AbstractAdapter, SubAdapterDataSetupMixin):
+    model_class = Fighter
+
+    def to_dict(self) -> dict:
+        return {
+            "name": re.sub(r"(\w)([A-Z])", r"\1 \2", self.data["name"]),
+            "href": self.data["href"],
+        }
+
+
+class FightAdapter(AbstractAdapter, SubAdapterDataSetupMixin):
+    model_class = Fight
+
+    def to_dict(self) -> dict:
+        return {
+            "fighter_one": FighterAdapter(data=self.data[0]).to_dict(),
+            "fighter_two": FighterAdapter(data=self.data[1]).to_dict(),
+        }
+
+
+class FightListAdapter(AbstractAdapter, ScrapperDataSetupMixin):
+    scrapper_class = EventFightsScrapper
+    model_class = FightList
+
+    def to_dict(self) -> dict:
+        from logging import getLogger
+
+        log = getLogger(__name__)
+        log.warning(self.data)
+        return {"fights": [FightAdapter(data=fight).to_dict() for fight in self.data]}

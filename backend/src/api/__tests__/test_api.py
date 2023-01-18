@@ -23,7 +23,8 @@ def test_latest_events(mocker):
         ]
     }
     mocker.patch(
-        "src.api.v1.events.routers.EventListAdapter.to_dict", return_value=expected_response
+        "src.api.v1.events.routers.EventListAdapter.to_dict",
+        return_value=expected_response,
     )
     client = TestClient(app)
     response = client.get("api/v1/events/latest")

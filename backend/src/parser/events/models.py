@@ -13,11 +13,14 @@ class Fight(BaseModel):
     fighter_two: Fighter
 
 
+class FightList(BaseModel):
+    fights: list[Fight]
+
+
 class Event(BaseModel):
     name: str
     href: str
     date: datetime.date
-    # fights: list[Fight]
 
 
 class EventList(BaseModel):
