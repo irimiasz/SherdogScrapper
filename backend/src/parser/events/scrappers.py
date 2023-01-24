@@ -1,8 +1,11 @@
 from .constants import (
     RECENT_EVENTS_BATCH_LIMIT,
+    UFC_EVENT_URL_PREFIX,
     UFC_EVENTS_URL,
 )
 from src.parser.commons.scrappers import AbstractScrapper
+from src.parser.commons.helpers import chunks
+from src.parser.events.helpers import parse_fighter_span_intro_dict
 
 
 class LatestEventsScrapper(AbstractScrapper):
@@ -26,3 +29,22 @@ class LatestEventsScrapper(AbstractScrapper):
                 }
             )
         return events_list
+
+
+class EventFightsScrapper(AbstractScrapper):
+    def __init__(self, event_name: str):
+        self.url = f"{UFC_EVENT_URL_PREFIX}/{event_name}"
+        super().__init__()
+
+    @property
+    def data(self) -> list[list[dict]]:
+        main_event_fighters = self.content.find(class_="fight_card").find_all(
+            itemprop="name"
+        )
+        non_main_event_fighters = self.content.find(class_="new_table_holder").find_all(
+            "span", itemprop="name"
+        )
+        fights = chunks(main_event_fighters + non_main_event_fighters, 2)
+        return [
+            [parse_fighter_span_intro_dict(span) for span in fight] for fight in fights
+        ]
