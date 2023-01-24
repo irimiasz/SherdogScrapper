@@ -49,8 +49,9 @@ class FightAdapter(AbstractAdapter, SubAdapterDataSetupMixin):
 
     def to_dict(self) -> dict:
         return {
-            "fighter_one": FighterAdapter(data=self.data[0]).to_dict(),
-            "fighter_two": FighterAdapter(data=self.data[1]).to_dict(),
+            "fighters": [
+                FighterAdapter(data=fighter).to_dict() for fighter in self.data
+            ]
         }
 
 

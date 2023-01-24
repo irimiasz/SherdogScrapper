@@ -9,8 +9,7 @@ class Fighter(BaseModel):
 
 
 class Fight(BaseModel):
-    fighter_one: Fighter
-    fighter_two: Fighter
+    fighters: list[Fighter]
 
 
 class FightList(BaseModel):

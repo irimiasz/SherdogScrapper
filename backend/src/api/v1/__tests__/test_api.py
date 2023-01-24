@@ -30,3 +30,38 @@ def test_latest_events(mocker):
     response = client.get("api/v1/events/latest")
     assert response.status_code == 200
     assert response.json() == expected_response
+
+
+def test_event_fights(mocker):
+    expected_response = {
+        "fights": [
+            {
+                "fighters": [
+                    {
+                        "name": "Sean Strickland",
+                        "href": "/fighter/Sean-Strickland-30452",
+                    },
+                    {
+                        "name": "Nassourdine Imavov",
+                        "href": "/fighter/Nassourdine-Imavov-217405",
+                    },
+                ]
+            },
+            {
+                "fighters": [
+                    {"name": "Dan Ige", "href": "/fighter/Dan-Ige-136499"},
+                    {"name": "Damon Jackson", "href": "/fighter/Damon-Jackson-113767"},
+                ]
+            },
+        ]
+    }
+    mocker.patch(
+        "src.api.v1.events.routers.FightListAdapter.to_dict",
+        return_value=expected_response,
+    )
+    client = TestClient(app)
+    response = client.get(
+        "api/v1/events/UFC-Fight-Night-217-Strickland-vs-Imavov-94946/fights"
+    )
+    assert response.status_code == 200
+    assert response.json() == expected_response
