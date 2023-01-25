@@ -1,3 +1,4 @@
+import random
 import re
 
 from datetime import datetime
@@ -49,9 +50,9 @@ class FightAdapter(AbstractAdapter, SubAdapterDataSetupMixin):
 
     def to_dict(self) -> dict:
         return {
-            "fighters": [
-                FighterAdapter(data=fighter).to_dict() for fighter in self.data
-            ]
+            "fighters": random.sample(
+                [FighterAdapter(data=fighter).to_dict() for fighter in self.data], 2
+            )
         }
 
 
