@@ -50,9 +50,9 @@ class FightAdapter(AbstractAdapter, SubAdapterDataSetupMixin):
 
     def to_dict(self) -> dict:
         return {
-            "fighters": random.sample([
-                FighterAdapter(data=fighter).to_dict() for fighter in self.data
-            ], 2)
+            "fighters": random.sample(
+                [FighterAdapter(data=fighter).to_dict() for fighter in self.data], 2
+            )
         }
 
 
